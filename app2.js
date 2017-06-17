@@ -1,6 +1,7 @@
 'use strict';
 
 var hoursOpen = ['06:00am', '07:00am', '08:00am', '09:00am', '10:00am', '11:00am', '12:00pm', '01:00pm', '02:00pm', '03:00pm', '04:00pm', '05:00pm', '06:00pm', '07:00pm', '08:00pm']
+var hoursOpenIsZero = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var allTheStores = [];
 
 //creating object literals
@@ -49,6 +50,21 @@ function makeRow(store) {
   }
 }
 
+function makeFooter() {
+  var footerEl = document.createElement('tfoot');
+  tableEl.appendChild(footerEl);
+
+  var totalEl = document.createElement('th');
+  totalEl.textContent = 'Store Totals';
+  footerEl.appendChild(totalEl);
+
+  for (var i = 0; i < hoursOpenIsZero.length; i++) {
+    var totalHourlySalesEl = document.createElement('th');
+    totalHourlySalesEl.textContent = hoursOpenIsZero[i];
+    footerEl.appendChild(totalHourlySalesEl);
+  }
+}
+
 var pike = new Store('1st and Pike', 23, 65, 6.5);
 var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
 var seaCenter = new Store('Seattle Center', 11, 38, 3.7);
@@ -73,6 +89,23 @@ for (var i = 0; i < allTheStores.length; i++) {
   makeRow(allTheStores[i]);
 }
 
+function totalHourlySales(store) {
+  for (var i = 0; i < hoursOpenIsZero.length; i++) {
+    hoursOpenIsZero[i] = hoursOpenIsZero[i] + store.hourlySales[i];
+  }
+  console.log(totalHourlySales);
+}
+
+function callingTotalHourlySales() {
+  for (var i = 0; i < allTheStores.length; i++) {
+    totalHourlySales(allTheStores[i]);
+  }
+  console.log(hoursOpenIsZero);
+}
+
+callingTotalHourlySales();
+makeFooter();
+
 //starting the event listener for form element
 var formEl = document.getElementById('form');
 
@@ -89,7 +122,7 @@ function fancyStoreSubmit(event) {
   var newAvgCookiesSale = event.target.newAvgCookiesSale.value;
 
   var newStore = new Store(newName, newMinCust, newMaxCust, newAvgCookiesSale);
-  
+
   genHourlySales(newStore);
   makeRow(newStore);
 }

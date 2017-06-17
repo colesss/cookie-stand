@@ -12,10 +12,9 @@ h1 {
 }
 
 #nav {
-  display: block;
+  display: inline;
   width: 100%;
   background-color: inherit;
-  float: right;
-  text-align: right;
+  text-align: center;
   font-family: sans-serif;
 }
